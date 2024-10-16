@@ -36,17 +36,17 @@ public class CourseController {
         return courseRepository.findAll();
     }
 
-    @PostMapping
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public Course create(@RequestBody @Valid Course course) {
-        return courseRepository.save(course);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Course> findById(@PathVariable @NotNull @Positive Long id){
         return courseRepository.findById(id)
-            .map(record -> ResponseEntity.ok().body(record))
+            .map(recordFound -> ResponseEntity.ok().body(recordFound))
             .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public Course create(@RequestBody @Valid Course course) {
+        return courseRepository.save(course);
     }
 
     @PutMapping("/{id}")

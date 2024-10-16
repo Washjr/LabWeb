@@ -10,5 +10,5 @@ import { MAT_DIALOG_DATA, MatDialogContent, MatDialogModule, MatDialogTitle } fr
   styleUrl: './error-dialog.component.scss'
 })
 export class ErrorDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string) { }
 }

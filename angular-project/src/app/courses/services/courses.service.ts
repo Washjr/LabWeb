@@ -17,10 +17,14 @@ export class CoursesService {
   list(){
     return this.httpClient.get<Course[]>(this.API)
     .pipe(
-      first(),
+      first()
       //delay(10000),
-      tap(courses => console.log(courses))
+      //tap(courses => console.log(courses))
     );
+  }
+
+  loadById(id: string) {
+    return this.httpClient.get<Course>(`${this.API}/${id}`);
   }
 
   save(record: Partial<Course>){
@@ -41,10 +45,6 @@ export class CoursesService {
 
   remove(id: string){
     return this.httpClient.delete(`${this.API}/${id}`);
-  }
-
-  loadById(id: string) {
-    return this.httpClient.get<Course>(`${this.API}/${id}`);
   }
  }
 

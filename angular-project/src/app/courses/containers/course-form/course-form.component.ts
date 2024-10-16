@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
@@ -28,7 +28,6 @@ export class CourseFormComponent implements OnInit{
     private service: CoursesService,
     private snackBar: MatSnackBar,
     private location : Location,
-    private router : Router,
     private route : ActivatedRoute
   ){
     this.form = this.formBuilder.group({
@@ -38,6 +37,38 @@ export class CourseFormComponent implements OnInit{
         Validators.maxLength(100)]],
       category: ['', [Validators.required]]
     });
+  }
+
+  ngOnInit(): void {
+    const course: Course = this.route.snapshot.data['course'];
+    this.form.setValue({
+      id: course.id,
+      name: course.name,
+      category: course.category
+    });
+  }
+
+  onSubmit(){
+    this.service.save(this.form.value).subscribe(
+      result => this.onSuccess(),
+      error => this.onError()
+    );
+  }
+
+  onCancel(){
+    this.location.back();
+  }
+
+  private onSuccess(){
+    this.snackBar.open('Novo curso salvo com sucesso', '',
+      { duration : 5000, });
+    this.onCancel();
+  }
+
+  private onError(){
+    this.snackBar.open('Erro ao salvar novo curso', '',
+      { duration : 5000, });
+    this.onCancel();
   }
 
   errorMessage(fieldName: string){
@@ -53,40 +84,8 @@ export class CourseFormComponent implements OnInit{
     if (field?.hasError('maxlength')){
       const requiredLength : number = field.errors ?
       field.errors['maxlength']['requiredLength'] : 100;
-      return 'Tamanho máximo excedido de ${requiredLength} caracteres.';
+      return `Tamanho máximo excedido de ${requiredLength} caracteres.`;
     }
     return 'Campo invalido!';
-  }
-
-  onSubmit(){
-    this.service.save(this.form.value).subscribe(
-      result => this.onSuccess(),
-      error => this.onError()
-    );
-  }
-
-  private onSuccess(){
-    this.snackBar.open('Novo curso salvo com sucesso', '',
-      { duration : 5000, });
-    this.onCancel();
-  }
-
-  private onError(){
-    this.snackBar.open('Erro ao salvar novo curso', '',
-      { duration : 5000, });
-    this.onCancel();
-  }
-
-  onCancel(){
-    this.location.back();
-  }
-
-  ngOnInit(): void {
-    const course: Course = this.route.snapshot.data['course'];
-    this.form.setValue({
-      id: course.id,
-      name: course.name,
-      category: course.category
-    });
   }
 }
