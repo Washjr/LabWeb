@@ -19,6 +19,7 @@ import lombok.Data;
 @Entity
 @SQLDelete(sql = "UPDATE Course SET status = 'Inativo' WHERE id = ?")
 @SQLRestriction("status = 'Ativo'")
+//@Where(clause = "status = 'Ativo'")
 public class Course {
 
     @Id
