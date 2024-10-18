@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.uneb.labweb.spring_project.enums.Category;
 import com.uneb.labweb.spring_project.model.Course;
 import com.uneb.labweb.spring_project.repository.CourseRepository;
 
@@ -20,17 +21,17 @@ public class SpringProjectApplication {
         return args -> {
             Course course1 = new Course();
             course1.setName("Curso Angular");
-            course1.setCategory("Front-end");
+            course1.setCategory(Category.FRONT_END);
             courseRepository.save(course1);
 
             Course course2 = new Course();
             course2.setName("Curso React");
-            course2.setCategory("Front-end");
+            course2.setCategory(Category.FRONT_END);
             courseRepository.save(course2);
 
             Course course3 = new Course();
             course3.setName("Curso Spring Boot");
-            course3.setCategory("Back-end");
+            course3.setCategory(Category.BACK_END);
             courseRepository.save(course3);
         };
     }

@@ -3,6 +3,7 @@ package com.uneb.labweb.spring_project.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.uneb.labweb.spring_project.dto.CourseDTO;
+import com.uneb.labweb.spring_project.enums.Category;
 import com.uneb.labweb.spring_project.model.Course;
 
 @Component
@@ -13,7 +14,7 @@ public class CourseMapper {
             return null;
         }
 
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory());
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
     }
 
     public Course toEntity(CourseDTO courseDTO) {
@@ -27,9 +28,18 @@ public class CourseMapper {
             course.setId(courseDTO.id());
         }
         course.setName(courseDTO.name());
-        course.setCategory(courseDTO.category());
-        course.setStatus("Ativo");
+        course.setCategory(convertCategoryValue(courseDTO.category()));
         return course;
     }
 
+    public Category convertCategoryValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        return switch (value) {
+            case "Front-end" -> Category.FRONT_END;
+            case "Back-end" -> Category.BACK_END;
+            default -> throw new IllegalArgumentException("Categoria inválida: " + value);
+        };    
+    }
 }
