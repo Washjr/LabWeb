@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.uneb.labweb.spring_project.enums.Category;
 import com.uneb.labweb.spring_project.model.Course;
+import com.uneb.labweb.spring_project.model.Lesson;
 import com.uneb.labweb.spring_project.repository.CourseRepository;
 
 @SpringBootApplication
@@ -22,6 +23,13 @@ public class SpringProjectApplication {
             Course course1 = new Course();
             course1.setName("Curso Angular");
             course1.setCategory(Category.FRONT_END);
+
+            Lesson lesson1 = new Lesson();
+			lesson1.setName("Introdução");
+			lesson1.setYoutubeUrl("watch?v=1");
+			lesson1.setCourse(course1);
+			course1.getLessons().add(lesson1);
+
             courseRepository.save(course1);
 
             Course course2 = new Course();
