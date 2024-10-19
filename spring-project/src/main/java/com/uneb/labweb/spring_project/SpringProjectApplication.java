@@ -30,6 +30,12 @@ public class SpringProjectApplication {
 			lesson1.setCourse(course1);
 			course1.getLessons().add(lesson1);
 
+            Lesson lesson2 = new Lesson();
+			lesson2.setName("Angular");
+			lesson2.setYoutubeUrl("watch?v=2");
+			lesson2.setCourse(course1);
+			course1.getLessons().add(lesson2);
+
             courseRepository.save(course1);
 
             Course course2 = new Course();
