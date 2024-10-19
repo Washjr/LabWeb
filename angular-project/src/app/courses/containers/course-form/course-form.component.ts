@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
+import { Lesson } from '../../model/lesson';
 
 @Component({
   selector: 'app-course-form',
@@ -24,6 +25,7 @@ import { CoursesService } from '../../services/courses.service';
 })
 export class CourseFormComponent implements OnInit{
   form: FormGroup;
+
   constructor(private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     private snackBar: MatSnackBar,
@@ -35,16 +37,37 @@ export class CourseFormComponent implements OnInit{
       name: ['', [Validators.required,
         Validators.minLength(5),
         Validators.maxLength(100)]],
-      category: ['', [Validators.required]]
+      category: ['', [Validators.required]],
+      lessons: []
     });
   }
 
   ngOnInit(): void {
     const course: Course = this.route.snapshot.data['course'];
+
     this.form.setValue({
       id: course.id,
       name: course.name,
-      category: course.category
+      category: course.category,
+      lessons: this.formBuilder.array(this.retrieveLessons(course))
+    });
+  }
+
+  private retrieveLessons(course: Course) {
+    const lessons = [];
+    if (course?.lessons) {
+      course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
+    } else {
+      lessons.push(this.createLesson());
+    }
+    return lessons;
+  }
+
+  private createLesson(lesson: Lesson = { id: '', name: '', youtubeUrl: '' }) {
+    return this.formBuilder.group({
+      id: [lesson.id],
+      name: [lesson.name],
+      youtubeUrl: [lesson.youtubeUrl]
     });
   }
 
