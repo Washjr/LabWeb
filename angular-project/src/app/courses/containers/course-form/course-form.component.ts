@@ -25,15 +25,15 @@ import { CoursesService } from '../../services/courses.service';
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss'
 })
-export class CourseFormComponent implements OnInit{
+export class CourseFormComponent implements OnInit {
   form!: FormGroup;
 
   constructor(private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     private snackBar: MatSnackBar,
-    private location : Location,
-    private route : ActivatedRoute
-  ){
+    private location: Location,
+    private route: ActivatedRoute
+  ) {
 
   }
 
@@ -42,15 +42,42 @@ export class CourseFormComponent implements OnInit{
 
     this.form = this.formBuilder.group({
       id: [course.id],
-      name: [course.name, [Validators.required,
+      name: [course.name,
+        [Validators.required,
         Validators.minLength(5),
         Validators.maxLength(100)]],
-      category: [course.category, [Validators.required]],
-      lessons: this.formBuilder.array(this.retrieveLessons(course))
+      category: [course.category,
+        [Validators.required]],
+      lessons: this.formBuilder.array(this.retrieveLessons(course),
+        Validators.required)
     });
+  }
 
-    console.log(this.form);
-    console.log(this.form.value);
+  onSubmit() {
+    if (this.form.valid) {
+      this.service.save(this.form.value).subscribe(
+        result => this.onSuccess(),
+        error => this.onError()
+      );
+    } else {
+      alert('Form invalido');
+    }
+  }
+
+  onCancel() {
+    this.location.back();
+  }
+
+  private onSuccess() {
+    this.snackBar.open('Novo curso salvo com sucesso', '',
+      { duration : 5000, });
+    this.onCancel();
+  }
+
+  private onError() {
+    this.snackBar.open('Erro ao salvar novo curso', '',
+      { duration : 5000, });
+    this.onCancel();
   }
 
   private retrieveLessons(course: Course) {
@@ -66,13 +93,15 @@ export class CourseFormComponent implements OnInit{
   private createLesson(lesson: Lesson = { id: '', name: '', youtubeUrl: '' }) {
     return this.formBuilder.group({
       id: [lesson.id],
-      name: [lesson.name],
-      youtubeUrl: [lesson.youtubeUrl]
+      name: [lesson.name,
+        [Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(100)]],
+      youtubeUrl: [lesson.youtubeUrl,
+        [Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(11)]]
     });
-  }
-
-  getLessonsFormArray() {
-    return (<UntypedFormArray>this.form.get('lessons')).controls;
   }
 
   addNewLesson() {
@@ -85,30 +114,16 @@ export class CourseFormComponent implements OnInit{
     lessons.removeAt(index);
   }
 
-  onSubmit(){
-    this.service.save(this.form.value).subscribe(
-      result => this.onSuccess(),
-      error => this.onError()
-    );
+  getLessonsFormArray() {
+    return (<UntypedFormArray>this.form.get('lessons')).controls;
   }
 
-  onCancel(){
-    this.location.back();
+  isFormArrayRequired() {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    return !lessons.valid && lessons.hasError('required') && lessons.touched;
   }
 
-  private onSuccess(){
-    this.snackBar.open('Novo curso salvo com sucesso', '',
-      { duration : 5000, });
-    this.onCancel();
-  }
-
-  private onError(){
-    this.snackBar.open('Erro ao salvar novo curso', '',
-      { duration : 5000, });
-    this.onCancel();
-  }
-
-  errorMessage(fieldName: string){
+  errorMessage(fieldName: string) {
     const field = this.form.get(fieldName);
     if (field?.hasError('required')){
       return 'Campo obrigatorio';
