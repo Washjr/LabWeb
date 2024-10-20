@@ -1,9 +1,10 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -11,15 +12,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
 
 import { Course } from '../../model/course';
-import { CoursesService } from '../../services/courses.service';
 import { Lesson } from '../../model/lesson';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-course-form',
   standalone: true,
   imports: [MatFormFieldModule, ReactiveFormsModule,
     MatInputModule, MatCardModule, MatToolbarModule,
-    MatButtonModule, MatSelectModule, MatSnackBarModule, CommonModule],
+    MatButtonModule, MatSelectModule, MatSnackBarModule,
+    CommonModule, MatIconModule],
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss'
 })
@@ -69,6 +71,10 @@ export class CourseFormComponent implements OnInit{
       name: [lesson.name],
       youtubeUrl: [lesson.youtubeUrl]
     });
+  }
+
+  getLessonsFormArray() {
+    return (<UntypedFormArray>this.form.get('lessons')).controls;
   }
 
   onSubmit(){
