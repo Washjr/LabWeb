@@ -82,7 +82,7 @@ export class CourseFormComponent implements OnInit {
 
   private retrieveLessons(course: Course) {
     const lessons = [];
-    if (course?.lessons) {
+    if (course?.lessons && course.lessons.length > 0) {
       course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
     } else {
       lessons.push(this.createLesson());
