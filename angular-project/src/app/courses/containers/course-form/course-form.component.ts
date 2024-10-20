@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
 
+import { FormUtilsService } from '../../../shared/form/form-utils.service';
 import { Course } from '../../model/course';
 import { Lesson } from '../../model/lesson';
 import { CoursesService } from '../../services/courses.service';
@@ -32,7 +33,8 @@ export class CourseFormComponent implements OnInit {
     private service: CoursesService,
     private snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public formUtils: FormUtilsService
   ) {
 
   }
@@ -60,7 +62,7 @@ export class CourseFormComponent implements OnInit {
         error => this.onError()
       );
     } else {
-      alert('Form invalido');
+      this.formUtils.validateAllFormFields(this.form);
     }
   }
 
@@ -116,28 +118,5 @@ export class CourseFormComponent implements OnInit {
 
   getLessonsFormArray() {
     return (<UntypedFormArray>this.form.get('lessons')).controls;
-  }
-
-  isFormArrayRequired() {
-    const lessons = this.form.get('lessons') as UntypedFormArray;
-    return !lessons.valid && lessons.hasError('required') && lessons.touched;
-  }
-
-  errorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-    if (field?.hasError('required')){
-      return 'Campo obrigatorio';
-    }
-    if (field?.hasError('minlength')){
-      const requiredLength : number = field.errors ?
-      field.errors['minlength']['requiredLength'] : 5;
-      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres.`;
-    }
-    if (field?.hasError('maxlength')){
-      const requiredLength : number = field.errors ?
-      field.errors['maxlength']['requiredLength'] : 100;
-      return `Tamanho máximo excedido de ${requiredLength} caracteres.`;
-    }
-    return 'Campo invalido!';
   }
 }
