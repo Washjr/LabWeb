@@ -26,27 +26,31 @@ public class SpringProjectApplication {
 
             Lesson lesson1 = new Lesson();
 			lesson1.setName("Introdução");
-			lesson1.setYoutubeUrl("watch?v=1");
+			lesson1.setYoutubeUrl("01234567890");
 			lesson1.setCourse(course1);
 			course1.getLessons().add(lesson1);
 
             Lesson lesson2 = new Lesson();
 			lesson2.setName("Angular");
-			lesson2.setYoutubeUrl("watch?v=2");
+			lesson2.setYoutubeUrl("01234567891");
 			lesson2.setCourse(course1);
 			course1.getLessons().add(lesson2);
 
             courseRepository.save(course1);
 
+            
+            
             Course course2 = new Course();
-            course2.setName("Curso React");
-            course2.setCategory(Category.FRONT_END);
-            courseRepository.save(course2);
+            course2.setName("Curso Spring Boot");
+            course2.setCategory(Category.BACK_END);
 
-            Course course3 = new Course();
-            course3.setName("Curso Spring Boot");
-            course3.setCategory(Category.BACK_END);
-            courseRepository.save(course3);
+            Lesson lesson3 = new Lesson();
+			lesson3.setName("Introdução");
+			lesson3.setYoutubeUrl("01234567892");
+			lesson3.setCourse(course2);
+			course2.getLessons().add(lesson3);
+
+            courseRepository.save(course2);
         };
     }
 }
