@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.uneb.labweb.spring_project.enums.Category;
 import com.uneb.labweb.spring_project.model.Course;
@@ -18,6 +19,7 @@ public class SpringProjectApplication {
     }
 
     @Bean
+    @Profile("test")
     CommandLineRunner initDatabase(CourseRepository courseRepository) {
         return args -> {
             courseRepository.deleteAll();
