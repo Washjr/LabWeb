@@ -3,18 +3,23 @@ package com.uneb.labweb.spring_project.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.uneb.labweb.spring_project.dto.CourseDTO;
+import com.uneb.labweb.spring_project.dto.CoursePageDTO;
 import com.uneb.labweb.spring_project.dto.mapper.CourseMapper;
 import com.uneb.labweb.spring_project.exception.RecordNotFoundException;
 import com.uneb.labweb.spring_project.model.Course;
 import com.uneb.labweb.spring_project.repository.CourseRepository;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @Service
@@ -28,11 +33,16 @@ public class CourseService {
         this.courseMapper = courseMapper;
     }
 
-    public List<CourseDTO> list() {
-        return courseRepository.findAll()
-                .stream()
+    public CoursePageDTO list(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+        
+        Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(page, pageSize));
+        
+        List<CourseDTO> courses = pageCourse
+                .get()
                 .map(courseMapper::toDTO)
                 .collect(Collectors.toList());
+
+        return new CoursePageDTO(courses, pageCourse.getTotalElements(), pageCourse.getTotalPages());
     }
 
     public CourseDTO findById(@NotNull @Positive Long id) {
