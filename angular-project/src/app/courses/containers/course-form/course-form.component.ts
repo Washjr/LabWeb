@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,10 +19,7 @@ import { CoursesService } from '../../services/courses.service';
 @Component({
   selector: 'app-course-form',
   standalone: true,
-  imports: [MatFormFieldModule, ReactiveFormsModule,
-    MatInputModule, MatCardModule, MatToolbarModule,
-    MatButtonModule, MatSelectModule, MatSnackBarModule,
-    CommonModule, MatIconModule],
+  imports: [MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatCardModule, MatToolbarModule, MatButtonModule, MatSelectModule, MatSnackBarModule, MatIconModule],
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss'
 })
