@@ -72,13 +72,13 @@ export class CourseFormComponent implements OnInit {
 
   private onSuccess() {
     this.snackBar.open('Novo curso salvo com sucesso', '',
-      { duration : 5000, });
+      { duration: 5000, });
     this.onCancel();
   }
 
   private onError() {
     this.snackBar.open('Erro ao salvar novo curso', '',
-      { duration : 5000, });
+      { duration: 5000, });
     this.onCancel();
   }
 

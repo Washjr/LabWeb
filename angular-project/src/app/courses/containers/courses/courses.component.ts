@@ -1,30 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of, tap } from 'rxjs';
 
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
-import { CategoryPipe } from '../../../shared/pipes/category.pipe';
 import { CoursesListComponent } from '../../components/courses-list/courses-list.component';
 import { Course } from '../../model/course';
-import { CoursesService } from '../../services/courses.service';
 import { CoursePage } from '../../model/course-page';
+import { CoursesService } from '../../services/courses.service';
 
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [MatTableModule, MatCardModule, MatToolbarModule, MatProgressSpinnerModule, CommonModule, MatDialogModule, MatButtonModule, MatIconModule, CategoryPipe, MatSnackBarModule, CoursesListComponent, MatPaginator],
+  imports: [MatCardModule, MatToolbarModule, MatProgressSpinnerModule, CommonModule, MatDialogModule, MatSnackBarModule, CoursesListComponent, MatPaginator],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
 })

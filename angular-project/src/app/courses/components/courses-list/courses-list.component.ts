@@ -22,11 +22,11 @@ export class CoursesListComponent implements OnInit {
 
   readonly displayedColumns: string[] = ['name', 'category', 'actions'];
 
-  constructor(){}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  onAdd(){
+  onAdd() {
     this.add.emit(true);
   }
 

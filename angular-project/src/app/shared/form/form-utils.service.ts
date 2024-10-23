@@ -53,6 +53,6 @@ export class FormUtilsService {
       const requiredLength: number = field.errors ? field.errors['maxlength']['requiredLength'] : 200;
       return `Tamanho máximo excedido de ${requiredLength} caracteres.`;
     }
-    return 'Campo Inválido';
+    return 'Campo inválido';
   }
 }

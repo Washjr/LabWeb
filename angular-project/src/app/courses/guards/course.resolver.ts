@@ -10,6 +10,7 @@ import { CoursesService } from '../services/courses.service';
 })
 
 export class CourseResolver {
+
   constructor(private service: CoursesService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Course> {
