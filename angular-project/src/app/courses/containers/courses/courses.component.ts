@@ -80,8 +80,8 @@ export class CoursesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.courseService.remove(course.id).subscribe(
-          () => {
+        this.courseService.remove(course.id).subscribe({
+          next: () => {
             this.refresh();
             this.snackBar.open('Curso removido com sucesso', 'X', {
               duration: 5000,
@@ -89,8 +89,8 @@ export class CoursesComponent implements OnInit {
               horizontalPosition: 'center'
             });
           },
-          () => this.onError('Erro ao tentar remover curso.')
-        );
+          error: () => this.onError('Erro ao tentar remover curso.')
+        });
       }
     });
   }

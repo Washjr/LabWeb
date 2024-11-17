@@ -27,7 +27,7 @@ export class CourseFormComponent implements OnInit {
   form!: FormGroup;
 
   constructor(private formBuilder: NonNullableFormBuilder,
-    private service: CoursesService,
+    private courseService: CoursesService,
     private snackBar: MatSnackBar,
     private location: Location,
     private route: ActivatedRoute,
@@ -54,10 +54,10 @@ export class CourseFormComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.service.save(this.form.value).subscribe(
-        result => this.onSuccess(),
-        error => this.onError()
-      );
+      this.courseService.save(this.form.value).subscribe({
+        next: () => this.onSuccess(),
+        error: () => this.onError()
+      });
     } else {
       this.formUtils.validateAllFormFields(this.form);
     }
