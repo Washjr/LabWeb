@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -35,7 +36,7 @@ public class CourseService {
 
     public CoursePageDTO list(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
         
-        Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(page, pageSize));
+        Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC,"name")));
         
         List<CourseDTO> courses = pageCourse
                 .get()

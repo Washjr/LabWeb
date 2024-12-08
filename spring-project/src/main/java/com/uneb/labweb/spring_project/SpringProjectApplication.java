@@ -19,7 +19,7 @@ public class SpringProjectApplication {
     }
 
     @Bean
-    @Profile("test")
+    @Profile("dev")
     CommandLineRunner initDatabase(CourseRepository courseRepository) {
         return args -> {
             courseRepository.deleteAll();

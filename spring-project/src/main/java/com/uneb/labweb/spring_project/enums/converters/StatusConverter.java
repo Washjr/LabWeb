@@ -24,7 +24,7 @@ public class StatusConverter implements AttributeConverter<Status, String> {
             return null;
         }
         return Stream.of(Status.values())
-                .filter(c -> c.getValue().equals(value))
+                .filter(s -> s.getValue().equals(value))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
